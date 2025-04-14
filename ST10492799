@@ -1,0 +1,126 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ */
+
+package com.mycompany.accountmanager;
+import java.util.Scanner;
+/**
+ *
+ * @author RC_Student_lab
+ */
+
+
+ 
+         
+   
+
+
+
+    public class AccountManager {
+    // Member variables for storing user information
+    private String username;
+    private String password;
+    private String cellPhoneNumber;
+
+    public static void main(String[] args) {
+        AccountManager accountManager = new AccountManager();
+        accountManager.registerUser();
+        accountManager.loginUser();
+    }
+
+    // Method for user registration
+    private void registerUser() {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Register new account:");
+
+        // Username input and validation
+        System.out.print("Enter your username (max 5 characters, must contain an underscore): ");
+        username = scanner.nextLine();
+        String usernameMessage = checkUsername(username);
+        System.out.println(usernameMessage);
+
+        // If username check failed, do not continue to the next step
+        if (!usernameMessage.contains("successfully")) return;
+
+        // Password input and validation
+        System.out.print("Enter your password (at least 8 characters, must contain a capital letter, a number, and a special character): ");
+        password = scanner.nextLine();
+        String passwordMessage = checkPassword(password);
+        System.out.println(passwordMessage);
+
+        // If password check failed, do not continue to the next step
+        if (!passwordMessage.contains("successfully")) return;
+
+        // Cell phone number input and validation
+        System.out.print("Enter your South African cell phone number (format: +27XXXXXXXXXX): ");
+        cellPhoneNumber = scanner.nextLine();
+        String cellPhoneNumberMessage = checkCellPhoneNumber(cellPhoneNumber);
+        System.out.println(cellPhoneNumberMessage);
+    }
+
+    // Method to check username format
+    private String checkUsername(String username) {
+        if (username.length() <= 5 && username.contains("_")) {
+            return "Username successfully captured.";
+        } else {
+            return "Username is not correctly formatted. Please ensure that your username contains an underscore and is not more than five characters in length.";
+        }
+    }
+
+    // Method to check password complexity
+    private String checkPassword(String password) {
+        if (password.length() >= 8 && 
+            password.matches(".*[A-Z].*") && 
+            password.matches(".*[0-9].*") && 
+            password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
+            return "Password successfully captured.";
+        } else {
+            return "Password is not correctly formatted. Please ensure that your password contains at least 8 characters, a capital letter, a number, and a special character.";
+        }
+    }
+
+    // Method to check cell phone number format
+    private String checkCellPhoneNumber(String cellPhoneNumber) {
+        if (cellPhoneNumber.startsWith("+27") && 
+            cellPhoneNumber.length() == 14 && 
+            cellPhoneNumber.matches("^\\+27[0-9]{10}$")) {
+            return "Cell phone number successfully added.";
+        } else {
+            return "Cell phone number incorrectly formatted or does not contain an international code.";
+        }
+    }
+
+    // Method for user login
+    private void loginUser() {
+        Scanner scanner = new Scanner(System.in);
+        
+        // Simulating a button press; you can simply press Enter to proceed.
+        System.out.println("Press Enter to login...");
+        scanner.nextLine();
+
+        System.out.print("Login with your username: ");
+        String loginUsername = scanner.nextLine();
+
+        System.out.print("Login with your password: ");
+        String loginPassword = scanner.nextLine();
+
+        String loginStatusMessage = returnLoginStatus(loginUsername, loginPassword);
+        System.out.println(loginStatusMessage);
+    }
+
+    // Method to validate login
+    private String returnLoginStatus(String loginUsername, String loginPassword) {
+        if (loginUsername.equals(username) && loginPassword.equals(password)) {
+            //Out putting the user's name and last name
+            String[] nameParts = username.split("_");
+            if (nameParts.length == 2) {
+                return "Welcome " + nameParts[0] + " " + nameParts[1] + ". It's great to see you again.";
+            } else {
+                return "Welcome user. It's great to see you again.";
+            }
+        } else {
+            return "Username or password incorrect. Please try again.";
+        }
+    }
+}
